@@ -1,9 +1,5 @@
 node_modules
 
-prisma/sqlite.db
-prisma/migrations
-prisma/sqlite.db-journal
-
 .nitro
 .output
 

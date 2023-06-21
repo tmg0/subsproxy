@@ -5,5 +5,5 @@
     "source.fixAll.eslint": true
   },
   "eslint.format.enable": true,
-  "eslint.validate": ["vue", "ts", "js", "html", "json"]
+  "eslint.validate": ["vue", "ts", "js", "html"]
 }
