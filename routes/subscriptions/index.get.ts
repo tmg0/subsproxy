@@ -1,5 +1,5 @@
-import prisma from '../../utils/prisma'
+import { subscription } from '../../utils/store'
 
 export default defineEventHandler(() => {
-  return prisma.subscription.findMany()
+  return subscription.findMany()
 })
