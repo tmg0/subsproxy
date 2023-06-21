@@ -1,5 +1,4 @@
 FROM node
-WORKDIR ~
-COPY .output .
+COPY .output /.output
 EXPOSE 5173
-CMD ["node", ".output/server/index.mjs"]
+CMD ["node", "/.output/server/index.mjs"]
