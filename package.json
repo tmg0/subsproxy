@@ -1,0 +1,27 @@
+{
+  "name": "sub-proxy",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "nitropack dev",
+    "build": "nitropack build",
+    "test": "vitest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "4.16.0",
+    "c12": "^1.4.1",
+    "h3": "^1.6.6",
+    "ofetch": "^1.1.0",
+    "prisma": "^4.16.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "eslint": "^8.43.0",
+    "nitropack": "^2.4.1",
+    "typescript": "^5.1.3",
+    "vitest": "^0.32.2"
+  }
+}
