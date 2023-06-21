@@ -1,6 +1,0 @@
-version: "2.2"
-services:
-  sub:
-    image: sub-proxy:20230621-fed8ac0
-    ports:
-      - 5173:5173
