@@ -2,15 +2,23 @@ import { prisma } from '~/utils/prisma'
 
 export default defineEventHandler(async (event) => {
   const { id } = getRouterParams(event)
-  const used: Record<string, number> = {}
-  const accounts = await prisma.account.findMany()
-
-  accounts.forEach((account) => {
-    if (!used[account.serverId]) { used[account.serverId] = 0 }
-    used[account.serverId] = used[account.serverId] + 1
-  })
 
   const servers = await prisma.server.findMany()
+
+  const accounts = await prisma.account.groupBy({
+    by: ['serverId'],
+    _count: { serverId: true },
+    orderBy: {
+      _count: {
+        serverId: 'desc'
+      }
+    }
+  })
+
+  const used: Record<string, number> = {}
+  accounts.forEach(({ serverId, _count }) => {
+    used[serverId] = _count.serverId
+  })
 
   if (!servers.length) { throw new Error('Do not have access server.') }
 
