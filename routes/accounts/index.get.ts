@@ -1,0 +1,11 @@
+import { z } from 'zod'
+import { prisma } from '~/utils/prisma'
+
+const AccountsQuery = z.object({
+  username: z.string()
+})
+
+export default defineEventHandler((event) => {
+  const query: z.infer<typeof AccountsQuery> = getQuery(event)
+  return prisma.account.findMany({ where: { username: query.username } })
+})
