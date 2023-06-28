@@ -6,6 +6,7 @@ RUN apk update && \
 RUN apk add sqlite sqlite-libs sqlite-dev
 
 COPY .output /.output
+COPY prisma/schema.prisma /.output/schema.prisma
 
 EXPOSE 3000
 
