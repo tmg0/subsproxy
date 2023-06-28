@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nitropack dev",
-    "build": "nitropack build",
+    "build": "prisma generate && nitropack build",
     "test": "vitest"
   },
   "author": "",

@@ -1,3 +1,5 @@
+import { prisma } from '../../utils/prisma'
+
 export default defineEventHandler(() => {
-  return []
+  return prisma.subsctiption.findMany()
 })
