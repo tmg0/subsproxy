@@ -5,8 +5,14 @@ RUN apk update && \
 
 RUN apk add sqlite sqlite-libs sqlite-dev
 
-COPY .output /.output
-COPY prisma/schema.prisma /.output/schema.prisma
+WORKDIR /src
+
+COPY . .
+RUN npm install && npm run build
+RUN mv ./.output /.output
+RUN rm -rf ./src
+
+WORKDIR /.output
 
 EXPOSE 3000
 
