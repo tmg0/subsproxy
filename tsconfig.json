@@ -2,7 +2,7 @@
   "extends":  "./.nitro/types/tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": { "~": ["."] }
+    "paths": { "~/*": ["./*"] }
   },
   "exclude": ["node_modules"]
 }
