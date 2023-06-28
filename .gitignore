@@ -3,4 +3,7 @@ node_modules
 .nitro
 .output
 
+prisma/migrations
+prisma/database.db
+
 dude.config.ts
