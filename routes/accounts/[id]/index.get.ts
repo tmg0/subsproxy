@@ -2,5 +2,5 @@ import { prisma } from '~/utils/prisma'
 
 export default defineEventHandler((event) => {
   const { id } = getRouterParams(event)
-  return prisma.subsctiption.findUnique({ where: { id } })
+  return prisma.account.findUnique({ where: { id } })
 })
