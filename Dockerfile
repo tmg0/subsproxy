@@ -10,7 +10,7 @@ WORKDIR /src
 COPY . .
 RUN npm install && npm run build
 RUN mv ./.output /.output
-RUN rm -rf ./src
+RUN rm -rf /src
 
 WORKDIR /.output
 

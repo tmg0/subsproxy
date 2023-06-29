@@ -13,7 +13,6 @@ datasource db {
 model Account {
   id        String   @id @default(uuid())
   username  String   @unique
-  serverId  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -32,4 +31,16 @@ model Server {
   subscriptionId String
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+}
+
+model AccountSubscription {
+  id             String @id @default(uuid())
+  accountId      String
+  subscriptionId String
+}
+
+model AccountServer {
+  id        String @id @default(uuid())
+  accountId String
+  serverId  String
 }
