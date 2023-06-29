@@ -35,7 +35,15 @@ export default defineEventHandler(async (event) => {
 
   pingServers(servers).then((valid) => {
     if (!valid) {
-      // TODO: Refetch subscriptions.
+      /**
+       * TODO: Refetch subscriptions.
+       *
+       * Step 1: Refetch subscriptions
+       * Step 2: Remove servers belongs to subscriptions
+       * Step 3: Remove account server relationships
+       * Step 4: Create new servers
+       * Step 5: Bind new servers to account
+       */
     }
   })
 
