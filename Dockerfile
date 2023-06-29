@@ -10,6 +10,7 @@ WORKDIR /src
 COPY . .
 RUN npm install && npm run build
 RUN mv ./.output /.output
+RUN mv ./prisma/schema.prisma /.output/schema.prisma
 RUN rm -rf /src
 
 WORKDIR /.output
