@@ -1,8 +1,11 @@
+import { throwBadRequestException } from '~/utils/expections'
 import { prisma } from '~/utils/prisma'
 
-export default defineEventHandler(async (event) => {
-  const { id } = getRouterParams(event)
+interface Options {
+  count: number
+}
 
+export const createAccountServer = async (id: string, opts: Options = { count: 1 }) => {
   const subscriptionIds = await prisma.accountSubscription.findMany({ where: { accountId: id } })
   const servers = await prisma.server.findMany({ where: { OR: subscriptionIds.map(({ subscriptionId }) => ({ subscriptionId })) } })
 
@@ -14,32 +17,24 @@ export default defineEventHandler(async (event) => {
     }
   })
 
-  const used: Record<string, number> = {}
+  const used = (() => {
+    const res: Record<string, number> = {}
+    servers.forEach(({ id }) => { res[id] = 0 })
+    return res
+  })()
+
   accounts.forEach(({ serverId, _count }) => {
     used[serverId] = _count.serverId
   })
 
-  const accessServers = servers.filter(({ id }) => !Object.keys(used).includes(id))
+  if (!servers.length) { throwBadRequestException() }
 
-  if (!accessServers.length) { throw new Error('Do not have access server.') }
+  return prisma.$transaction(Object.entries(used).sort(([_a, a], [_b, b]) => a - b).slice(0, opts.count).map(([serverId]) => {
+    return prisma.accountServer.create({ data: { accountId: id, serverId } })
+  }))
+}
 
-  return prisma.accountServer.create({
-    data: {
-      accountId: id,
-      serverId: (() => {
-        if (!Object.keys(used).length) { return accessServers[0].id }
-
-        for (const server of accessServers) {
-          if (!used[server.id]) { return server.id }
-        }
-
-        const [id] = Object.entries(accessServers).reduce((min, curr) => {
-          if (curr[1] < min[1]) { return curr }
-          return min
-        })
-
-        return id
-      })()
-    }
-  })
+export default defineEventHandler((event) => {
+  const { id } = getRouterParams(event)
+  return createAccountServer(id)
 })

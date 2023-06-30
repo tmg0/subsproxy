@@ -1,5 +1,5 @@
 import { CronJob } from 'cron'
-import { parseHosts, pingServers } from '~/utils/common'
+import { pingServers } from '~/utils/common'
 import { prisma } from '~/utils/prisma'
 import { store } from '~/utils/store'
 
