@@ -9,11 +9,6 @@ export default defineEventHandler(async (event) => {
   const accounts = await prisma.accountServer.groupBy({
     by: ['serverId'],
     _count: { serverId: true },
-    orderBy: {
-      _count: {
-        serverId: 'desc'
-      }
-    },
     where: {
       OR: servers.map(({ id }) => ({ serverId: id }))
     }

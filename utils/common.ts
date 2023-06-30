@@ -1,9 +1,9 @@
 import ping from 'ping'
 
-export const pingServers = (servers: { address: string }[]) => {
-  const VMESS_PREFIX = 'vmess://'
-  const SS_PREFIX = 'ss://'
+const VMESS_PREFIX = 'vmess://'
+const SS_PREFIX = 'ss://'
 
+export const parseHosts = (servers: { address: string }[]) => {
   const hosts: string[] = servers.map(({ address }) => {
     if (address.startsWith(VMESS_PREFIX)) {
       const decode = atob(address.replace(VMESS_PREFIX, ''))
@@ -19,5 +19,10 @@ export const pingServers = (servers: { address: string }[]) => {
     return address
   })
 
+  return hosts
+}
+
+export const pingServers = (servers: { address: string }[]) => {
+  const hosts = parseHosts(servers)
   return Promise.all(hosts.map(host => ping.promise.probe(host)))
 }

@@ -1,6 +1,5 @@
 import { CronJob } from 'cron'
-import ping from 'ping'
-import { pingServers } from '~/utils/common'
+import { parseHosts, pingServers } from '~/utils/common'
 import { prisma } from '~/utils/prisma'
 import { store } from '~/utils/store'
 
@@ -13,7 +12,7 @@ interface ServerPingData {
   histories: Record<string, PingStatus>[]
 }
 
-const job = new CronJob('* * * * *', async () => {
+const job = new CronJob('0 * * * * *', async () => {
   const servers = await prisma.server.findMany()
 
   const pingResponse = await pingServers(servers)
@@ -24,6 +23,8 @@ const job = new CronJob('* * * * *', async () => {
     if (!data) { data = { histories: [] } }
 
     data.histories.push({ [(new Date()).toLocaleString()]: alive ? PingStatus.SUCCESS : PingStatus.FAILED })
+
+    if (data.histories.length > 10) { data.histories.shift() }
 
     store.setItem(servers[index].id, data)
   }))
