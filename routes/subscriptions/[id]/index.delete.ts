@@ -13,5 +13,5 @@ export default defineEventHandler(async (event) => {
     prisma.accountSubscription.deleteMany({ where: { subscriptionId: id } })
   ].flat())
 
-  return prisma.subsctiption.delete({ where: { id } })
+  return prisma.subscription.delete({ where: { id } })
 })

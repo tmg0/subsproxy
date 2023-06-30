@@ -17,7 +17,7 @@ model Account {
   updatedAt DateTime @updatedAt
 }
 
-model Subsctiption {
+model Subscription {
   id        String   @id @default(uuid())
   address   String   @unique
   alias     String?

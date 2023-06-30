@@ -12,8 +12,8 @@ export type Subscription = Required<z.infer<typeof Subscription>>
 export default defineEventHandler(async (event) => {
   const body = await readBody<Subscription>(event)
   Subscription.parse(body)
-  const subsctiption = await prisma.subsctiption.create({ data: body })
+  const subscription = await prisma.subscription.create({ data: body })
   const servers = atob(await ofetch(body.address)).split(/[\n\r]/).filter(Boolean).flat()
-  await prisma.$transaction(servers.map(address => prisma.server.create({ data: { address, subscriptionId: subsctiption.id } })))
-  return subsctiption
+  await prisma.$transaction(servers.map(address => prisma.server.create({ data: { address, subscriptionId: subscription.id } })))
+  return subscription
 })

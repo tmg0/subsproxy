@@ -8,5 +8,5 @@ const Query = z.object({
 export default defineEventHandler((event) => {
   const query: z.infer<typeof Query> = getQuery(event)
   Query.parse(query)
-  return prisma.subsctiption.findMany({ where: { address: query.address } })
+  return prisma.subscription.findMany({ where: { address: query.address } })
 })
