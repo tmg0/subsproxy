@@ -1,4 +1,3 @@
-import { throwBadRequestException } from '~/utils/expections'
 import { prisma } from '~/utils/prisma'
 
 interface Options {
