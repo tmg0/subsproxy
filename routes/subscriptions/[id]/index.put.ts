@@ -5,6 +5,7 @@ import { prisma } from '~/utils/prisma'
 export default defineEventHandler(async (event) => {
   const { id } = getRouterParams(event)
   const subscription = await prisma.subscription.findUnique({ where: { id } })
+  if (!subscription) { throwBadRequestException() }
   const servers = atob(await ofetch(subscription.address)).split(/[\n\r]/).filter(Boolean).flat()
 
   const oldServers = await prisma.server.findMany({ where: { subscriptionId: id } })
