@@ -12,7 +12,7 @@ interface ServerPingData {
   histories: Record<string, PingStatus>[]
 }
 
-const job = new CronJob('0 * * * * *', async () => {
+const job = new CronJob('0 0 * * * *', async () => {
   const servers = await prisma.server.findMany()
 
   const pingResponse = await pingServers(servers)
