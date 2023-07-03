@@ -31,5 +31,5 @@ export default defineEventHandler(async (event) => {
     }
   })
 
-  return query.encode ? btoa(servers.map(({ address }) => address).join('\n')) : servers.map(({ id }) => ({ id }))
+  return query.encode ? btoa(servers.map(({ address }) => address).join('\n')) : servers
 })
