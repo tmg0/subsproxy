@@ -1,3 +1,5 @@
+import { H3Event } from 'h3'
+import jwt from 'jsonwebtoken'
 import ping from 'ping'
 
 const VMESS_PREFIX = 'vmess://'
@@ -25,4 +27,21 @@ export const parseHosts = (servers: { address: string }[]) => {
 export const pingServers = (servers: { address: string }[]) => {
   const hosts = parseHosts(servers)
   return Promise.all(hosts.map(host => ping.promise.probe(host)))
+}
+
+export const getAccessTokenFromHeader = (event: H3Event) => {
+  return getHeader(event, 'Authorization')
+}
+
+export const asyncVerify = (token: string, secretKey = '') => {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, secretKey, (err, decode) => {
+      if (err) { reject(err) }
+      resolve(decode)
+    })
+  })
+}
+
+export const generateAccessToken = (payload: any, expiresIn = '1h') => {
+  return jwt.sign(payload, SECRET_KEY, { expiresIn })
 }

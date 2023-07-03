@@ -1,10 +1,18 @@
 import { EventHandler } from 'h3'
+import { asyncVerify, getAccessTokenFromHeader } from './common'
+import { throwUnauthorizedException } from './expection'
+import { SECRET_KEY } from './constant'
 
 export const defineAuthenticatedEventHandler = (handler: EventHandler) => {
   return defineEventHandler(async (event) => {
-    // do something before the route handler
-    const response = await handler(event)
-    // do something after the route handler
-    return handler(event)
+    const hash = getAccessTokenFromHeader(event)
+    if (!hash) { throwUnauthorizedException() }
+
+    try {
+      await asyncVerify(hash, SECRET_KEY)
+      return handler(event)
+    } catch {
+      throwUnauthorizedException()
+    }
   })
 }
