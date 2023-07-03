@@ -33,7 +33,7 @@ export const createAccountServer = async (id: string, opts: Options = { count: 1
   }))
 }
 
-export default defineEventHandler(async (event) => {
+export default defineAuthenticatedEventHandler(async (event) => {
   const { id } = getRouterParams(event)
   const account = await prisma.account.findUnique({ where: { id } })
   if (!account) { throwBadRequestException() }

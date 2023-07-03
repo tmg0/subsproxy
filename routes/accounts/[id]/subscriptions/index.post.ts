@@ -5,7 +5,7 @@ const AccountSubscription = z.object({
   subscriptionId: z.string()
 })
 
-export default defineEventHandler(async (event) => {
+export default defineAuthenticatedEventHandler(async (event) => {
   const { id } = getRouterParams(event)
   const body = await readBody<Required<z.infer<typeof AccountSubscription>>>(event)
   AccountSubscription.parse(body)

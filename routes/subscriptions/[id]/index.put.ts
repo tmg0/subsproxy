@@ -2,7 +2,7 @@ import { ofetch } from 'ofetch'
 import { createAccountServer } from '~/routes/accounts/[id]/servers/index.post'
 import { prisma } from '~/utils/prisma'
 
-export default defineEventHandler(async (event) => {
+export default defineAuthenticatedEventHandler(async (event) => {
   const { id } = getRouterParams(event)
   const subscription = await prisma.subscription.findUnique({ where: { id } })
   if (!subscription) { throwBadRequestException() }

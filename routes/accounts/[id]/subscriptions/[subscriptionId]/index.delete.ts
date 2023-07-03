@@ -1,6 +1,6 @@
 import { prisma } from '~/utils/prisma'
 
-export default defineEventHandler(async (event) => {
+export default defineAuthenticatedEventHandler(async (event) => {
   const { id, subscriptionId } = getRouterParams(event)
 
   const servers = await prisma.server.findMany({ where: { subscriptionId } })

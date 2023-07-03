@@ -9,7 +9,7 @@ const Subscription = z.object({
 
 export type Subscription = Required<z.infer<typeof Subscription>>
 
-export default defineEventHandler(async (event) => {
+export default defineAuthenticatedEventHandler(async (event) => {
   const body = await readBody<Subscription>(event)
   Subscription.parse(body)
   const subscription = await prisma.subscription.create({ data: body })

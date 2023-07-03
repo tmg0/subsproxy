@@ -1,17 +1,15 @@
 import { prisma } from '~/utils/prisma'
 
-export default defineEventHandler(async (event) => {
+export default defineAuthenticatedEventHandler(async (event) => {
   const { id } = getRouterParams(event)
-  const servers = prisma.server.findMany({ where: { subscriptionId: id } })
+  const servers = await prisma.server.findMany({ where: { subscriptionId: id } })
 
-  await prisma.$transaction([
-    servers.map(({ id: serverId }) => [
-      prisma.server.deleteMany({ where: { subscriptionId: id } }),
-      prisma.accountServer.deleteMany({ where: { serverId } })
-    ]),
+  await Promise.all(servers.map(({ id: serverId }) => [
+    prisma.server.deleteMany({ where: { subscriptionId: id } }),
+    prisma.accountServer.deleteMany({ where: { serverId } })
+  ]))
 
-    prisma.accountSubscription.deleteMany({ where: { subscriptionId: id } })
-  ].flat())
+  await prisma.accountSubscription.deleteMany({ where: { subscriptionId: id } })
 
   return prisma.subscription.delete({ where: { id } })
 })

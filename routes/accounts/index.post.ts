@@ -7,7 +7,7 @@ const Account = z.object({
 
 export type Account = Required<z.infer<typeof Account>>
 
-export default defineEventHandler(async (event) => {
+export default defineAuthenticatedEventHandler(async (event) => {
   const body = await readBody<Account>(event)
   Account.parse(body)
   return prisma.account.create({ data: { username: body.username } })
