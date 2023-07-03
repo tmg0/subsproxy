@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { compareSync, hash } from 'bcrypt'
+import { compareSync } from 'bcrypt'
 import { prisma } from '~/utils/prisma'
 import { generateAccessToken } from '~/utils/common'
 
