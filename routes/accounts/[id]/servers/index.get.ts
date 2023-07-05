@@ -14,21 +14,28 @@ const hasDeadServer = async (servers: { address: string }[]) => {
 export default defineEventHandler(async (event) => {
   const { id } = getRouterParams(event)
 
-  const accountDevices = await prisma.accountDevice.findMany()
+  const accountDevices = (await prisma.accountDevice.findMany()) || []
   if (!accountDevices || !accountDevices.length) { throwBadRequestException() }
 
   const ua = getUserAgentFromHeader(event)
-  const hasEmpty = accountDevices.some(({ deviceId }) => !deviceId)
+  const devices = await prisma.device.findMany({
+    where: {
+      OR: accountDevices.map(({ deviceId }) => ({ id: deviceId })).filter(({ id }) => !!id)
+    }
+  })
+  const hasAccessUA = devices.some(device => device.ua === ua)
 
-  if (hasEmpty) {
-    const { id: deviceId } = await prisma.device.create({ data: { ua } })
-    const { id: accountDeviceId } = await prisma.accountDevice.findFirst({ where: { deviceId: null } })
-    await prisma.accountDevice.update({ where: { id: accountDeviceId }, data: { deviceId } })
+  if (!hasAccessUA) {
+    const hasEmpty = accountDevices.some(({ deviceId }) => !deviceId)
+
+    if (!hasEmpty) { throwBadRequestException() }
+
+    if (hasEmpty) {
+      const { id: deviceId } = await prisma.device.create({ data: { ua } })
+      const { id: accountDeviceId } = await prisma.accountDevice.findFirst({ where: { deviceId: null } })
+      await prisma.accountDevice.update({ where: { id: accountDeviceId }, data: { deviceId } })
+    }
   }
-
-  const devices = await prisma.device.findMany({ where: { OR: accountDevices.map(({ deviceId }) => ({ id: deviceId })) } })
-
-  if (!hasEmpty && !devices.some(device => device.ua === ua)) { throwBadRequestException() }
 
   const query: z.infer<typeof Query> = getQuery(event)
   const serverIds = await prisma.accountServer.findMany({ where: { accountId: id } })
