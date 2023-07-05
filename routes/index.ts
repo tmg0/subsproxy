@@ -17,7 +17,7 @@ const job = new CronJob('0 0 * * * *', async () => {
 
   const pingResponse = await pingServers(servers)
 
-  Promise.all(pingResponse.map(async ({ alive }, index) => {
+  pingResponse.forEach(async ({ alive }, index) => {
     let data = (await store.getItem(servers[index].id)) as ServerPingData
 
     if (!data) { data = { histories: [] } }
@@ -27,7 +27,7 @@ const job = new CronJob('0 0 * * * *', async () => {
     if (data.histories.length > 10) { data.histories.shift() }
 
     store.setItem(servers[index].id, data)
-  }))
+  })
 })
 
 job.start()

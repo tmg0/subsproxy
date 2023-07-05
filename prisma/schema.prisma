@@ -34,6 +34,18 @@ model Server {
   updatedAt      DateTime @updatedAt
 }
 
+model Device {
+  id String @id @default(uuid())
+  ua String
+  os String
+}
+
+model AccountDevice {
+  id        String @id @default(uuid())
+  accountId String
+  deviceId  String
+}
+
 model AccountSubscription {
   id             String @id @default(uuid())
   accountId      String
