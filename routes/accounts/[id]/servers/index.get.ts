@@ -31,9 +31,11 @@ export default defineEventHandler(async (event) => {
     if (!hasEmpty) { throwBadRequestException() }
 
     if (hasEmpty) {
-      const { id: deviceId } = await prisma.device.create({ data: { ua } })
-      const { id: accountDeviceId } = await prisma.accountDevice.findFirst({ where: { deviceId: null } })
-      await prisma.accountDevice.update({ where: { id: accountDeviceId }, data: { deviceId } })
+      await prisma.$transaction(async (prisma) => {
+        const { id: deviceId } = await prisma.device.create({ data: { ua } })
+        const { id: accountDeviceId } = await prisma.accountDevice.findFirst({ where: { deviceId: null } })
+        await prisma.accountDevice.update({ where: { id: accountDeviceId }, data: { deviceId } })
+      })
     }
   }
 
