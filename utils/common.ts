@@ -45,3 +45,7 @@ export const asyncVerify = (token: string, secretKey = '') => {
 export const generateAccessToken = (payload: any, expiresIn = '1h') => {
   return jwt.sign(payload, SECRET_KEY, { expiresIn })
 }
+
+export const getUserAgentFromHeader = (event: H3Event) => {
+  return getHeader(event, 'User-Agent')
+}
