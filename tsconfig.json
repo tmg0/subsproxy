@@ -4,6 +4,6 @@
     "baseUrl": ".",
     "paths": { "~/*": ["./*"] }
   },
-  "include": ["ping.d.ts", "./.nitro/types/nitro.d.ts", "./routes", "./utils"],
+  "include": ["ping.d.ts", "./.nitro/types/nitro.d.ts", "./routes", "./utils", "./schedules"],
   "exclude": ["node_modules"]
 }
