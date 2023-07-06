@@ -16,5 +16,6 @@ RUN rm -rf /src
 WORKDIR /.output
 
 EXPOSE 3000
+EXPOSE 5555
 
 CMD ["node", "/.output/server/index.mjs"]
