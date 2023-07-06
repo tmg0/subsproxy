@@ -3,12 +3,13 @@ import { createAccountServer } from '~/routes/accounts/[id]/servers/index.post'
 import { prisma } from '~/utils/prisma'
 
 export default defineAuthenticatedEventHandler(async (event) => {
-  const { id } = getRouterParams(event)
-  const subscription = await prisma.subscription.findUnique({ where: { id } })
+  const id = getRouterParam(event, 'id')
+  const { subscriptionId } = await prisma.server.findFirst({ where: { id } })
+  const subscription = await prisma.subscription.findUnique({ where: { id: subscriptionId } })
   if (!subscription) { throwBadRequestException() }
   const servers = atob(await ofetch(subscription.address)).split(/[\n\r]/).filter(Boolean).flat()
 
-  const oldServers = await prisma.server.findMany({ where: { subscriptionId: id } })
+  const oldServers = await prisma.server.findMany({ where: { subscriptionId } })
   const accounts = await prisma.accountServer.groupBy({
     by: ['accountId'],
     _count: { serverId: true },
