@@ -2,17 +2,20 @@ import { H3Event } from 'h3'
 import jwt from 'jsonwebtoken'
 import ping from 'ping'
 
-const VMESS_PREFIX = 'vmess://'
-const SS_PREFIX = 'ss://'
+export const VMESS_PREFIX = 'vmess://'
+export const SS_PREFIX = 'ss://'
+
+export const isVmess = (address: string) => address.startsWith(VMESS_PREFIX)
+export const isShadowsocks = (address: string) => address.startsWith(SS_PREFIX)
 
 export const parseHosts = (servers: { address: string }[]) => {
   const hosts: string[] = servers.map(({ address }) => {
-    if (address.startsWith(VMESS_PREFIX)) {
+    if (isVmess(address)) {
       const decode = atob(address.replace(VMESS_PREFIX, ''))
       return JSON.parse(decode).add
     }
 
-    if (address.startsWith(SS_PREFIX)) {
+    if (isShadowsocks(address)) {
       const [encode] = address.replace(SS_PREFIX, '').split('#')
       const [_, server] = atob(encode).split(':')
       return server.split('@')[1]
