@@ -6,53 +6,75 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:/.output/database.db"
+  provider     = "sqlite"
+  url          = "file:/.output/database.db"
+  relationMode = "prisma"
 }
 
 model Account {
-  id        String   @id @default(uuid())
-  username  String   @unique
-  password  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String                @id @default(uuid())
+  username            String                @unique
+  password            String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  accountServer       AccountServer[]
+  accountSubscription AccountSubscription[]
+  accountDevice       AccountDevice[]
 }
 
 model Subscription {
-  id        String   @id @default(uuid())
-  address   String   @unique
-  alias     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String                @id @default(uuid())
+  address             String                @unique
+  alias               String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  accountSubscription AccountSubscription[]
 }
 
 model Server {
-  id             String   @id @default(uuid())
-  address        String   @unique
+  id             String          @id @default(uuid())
+  address        String          @unique
   subscriptionId String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  accountServer  AccountServer[]
 }
 
 model Device {
-  id String @id @default(uuid())
-  ua String
+  id            String          @id @default(uuid())
+  ua            String
+  accountDevice AccountDevice[]
 }
 
 model AccountDevice {
   id        String  @id @default(uuid())
+  account   Account @relation(fields: [accountId], references: [id])
   accountId String
+  device    Device? @relation(fields: [deviceId], references: [id])
   deviceId  String?
+
+  @@index([accountId])
+  @@index([deviceId])
 }
 
 model AccountSubscription {
-  id             String @id @default(uuid())
+  id             String       @id @default(uuid())
+  account        Account      @relation(fields: [accountId], references: [id])
   accountId      String
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
   subscriptionId String
+
+  @@index([accountId])
+  @@index([subscriptionId])
 }
 
 model AccountServer {
-  id        String @id @default(uuid())
+  id        String  @id @default(uuid())
+  account   Account @relation(fields: [accountId], references: [id])
   accountId String
+  server    Server  @relation(fields: [serverId], references: [id])
   serverId  String
+
+  @@index([accountId])
+  @@index([serverId])
 }

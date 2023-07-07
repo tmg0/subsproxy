@@ -1,6 +1,9 @@
 import { H3Event } from 'h3'
+import nunjucks from 'nunjucks'
 import jwt from 'jsonwebtoken'
 import ping from 'ping'
+
+nunjucks.configure('./templates', { autoescape: false })
 
 export const VMESS_PREFIX = 'vmess://'
 export const SS_PREFIX = 'ss://'
@@ -51,4 +54,8 @@ export const generateAccessToken = (payload: any, expiresIn = '1h') => {
 
 export const getUserAgentFromHeader = (event: H3Event) => {
   return getHeader(event, 'User-Agent')
+}
+
+export const renderTemplate = (filename: string, options: Record<string, any>) => {
+  return nunjucks.render(filename, options)
 }

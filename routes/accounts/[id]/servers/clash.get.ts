@@ -1,6 +1,5 @@
-import nunjucks from 'nunjucks'
 import { getAccountServers } from './index.get'
-import { SS_PREFIX, VMESS_PREFIX, isShadowsocks, isVmess } from '~/utils/common'
+import { SS_PREFIX, VMESS_PREFIX, isShadowsocks, isVmess, renderTemplate } from '~/utils/common'
 
 export interface ClashProxy {
   name: string
@@ -64,7 +63,5 @@ export default defineEventHandler(async (event) => {
     }
   })
 
-  nunjucks.configure('./templates', { autoescape: false })
-
-  return nunjucks.render('clash.config.yml', { servers: proxies })
+  return renderTemplate('clash.config.yml', { servers: proxies })
 })
