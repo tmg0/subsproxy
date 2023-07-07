@@ -10,8 +10,8 @@ WORKDIR /src
 COPY . .
 RUN npm install && npm run build
 RUN mv ./.output /.output
+RUN mv ./templates /.output/templates
 RUN mv ./prisma/schema.prisma /.output/schema.prisma
-RUN mv ./clash.config.yml /.output/clash.config.yml
 RUN rm -rf /src
 
 WORKDIR /.output
