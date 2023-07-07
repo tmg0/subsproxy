@@ -35,13 +35,12 @@ export default defineEventHandler(async (event) => {
   const { id } = getRouterParams(event)
   const servers = await getAccountServers(event, id)
 
-  const shadowsocks: ClashProxy[] = []
-  const vmess: ClashProxy[] = []
+  const proxies: ClashProxy[] = []
 
   servers.forEach((server, index) => {
     if (isVmess(server.address)) {
       const conf = parseVmess(server.address)
-      vmess.push({
+      proxies.push({
         name: `vmess-${index}`,
         type: 'vmess',
         server: conf.add,
@@ -54,7 +53,7 @@ export default defineEventHandler(async (event) => {
 
     if (isShadowsocks(server.address)) {
       const conf = parseShadowsocks(server.address)
-      shadowsocks.push({
+      proxies.push({
         name: `ss-${index}`,
         type: 'ss',
         server: conf.server,
@@ -67,5 +66,5 @@ export default defineEventHandler(async (event) => {
 
   nunjucks.configure('./templates', { autoescape: false })
 
-  return nunjucks.render('clash.config.yml', { servers: [...shadowsocks, ...vmess] })
+  return nunjucks.render('clash.config.yml', { servers: proxies })
 })
