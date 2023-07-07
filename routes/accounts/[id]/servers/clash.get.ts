@@ -65,7 +65,7 @@ export default defineEventHandler(async (event) => {
     }
   })
 
-  nunjucks.configure('.', { autoescape: false })
+  nunjucks.configure('./templates', { autoescape: false })
 
   return nunjucks.render('clash.config.yml', { servers: [...shadowsocks, ...vmess] })
 })
