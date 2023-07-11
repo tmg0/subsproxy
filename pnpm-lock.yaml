@@ -8,7 +8,7 @@ specifiers:
   bcrypt: ^5.1.0
   cron: ^2.3.1
   eslint: ^8.43.0
-  go-dude: ^0.2.2
+  go-dude: ^0.2.3
   h3: ^1.6.6
   jsonwebtoken: ^9.0.0
   nanoid: ^4.0.2
@@ -41,7 +41,7 @@ devDependencies:
   '@types/bcrypt': 5.0.0
   '@types/cron': 2.0.1
   eslint: 8.44.0
-  go-dude: 0.2.2
+  go-dude: 0.2.3
   nitropack: 2.5.2
   typescript: 5.1.6
   vitest: 0.32.3
@@ -2695,8 +2695,8 @@ packages:
       slash: 4.0.0
     dev: true
 
-  /go-dude/0.2.2:
-    resolution: {integrity: sha512-5WUoCztn3YKadD6FqsReW/j6OuER6z8bBndRUkUkdntnNPe2Cqdxu1M6pstr+I6I1Zu1slnuMpQQbKUm66xoJg==}
+  /go-dude/0.2.3:
+    resolution: {integrity: sha512-3TDPlJKb4IaPux2l+9hNKV5yU4XaamBhnoL0IUH0sk04T8y2PA9gxeiBG2OBe1o9uIkAooiZbEorEh+iXuLUPw==}
     hasBin: true
     dependencies:
       c12: 1.4.2

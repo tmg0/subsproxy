@@ -28,7 +28,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/cron": "^2.0.1",
     "eslint": "^8.43.0",
-    "go-dude": "^0.2.2",
+    "go-dude": "^0.2.3",
     "nitropack": "^2.5.2",
     "typescript": "^5.1.3",
     "vitest": "^0.32.2"
