@@ -39,11 +39,11 @@ export const getAccessTokenFromHeader = (event: H3Event) => {
   return getHeader(event, 'Authorization')
 }
 
-export const asyncVerify = (token: string, secretKey = '') => {
+export const asyncVerify = (token: string, secretKey = SECRET_KEY) => {
   return new Promise((resolve, reject) => {
     jwt.verify(token, secretKey, (err, decode) => {
       if (err) { reject(err) }
-      resolve(decode)
+      if (!err) { resolve(decode) }
     })
   })
 }
