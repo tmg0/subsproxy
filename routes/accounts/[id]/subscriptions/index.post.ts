@@ -16,5 +16,8 @@ export default defineAuthenticatedEventHandler(async (event) => {
   const subscription = await prisma.subscription.findUnique({ where: { id: body.subscriptionId } })
   if (!subscription) { throwBadRequestException() }
 
+  const exist = await prisma.accountSubscription.findFirst({ where: { accountId: id, subscriptionId: body.subscriptionId } })
+  if (exist) { throwBadRequestException() }
+
   return prisma.accountSubscription.create({ data: { accountId: id, subscriptionId: body.subscriptionId } })
 })
