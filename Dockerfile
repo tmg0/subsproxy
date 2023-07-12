@@ -8,7 +8,7 @@ RUN apk add sqlite sqlite-libs sqlite-dev
 WORKDIR /src
 
 COPY . .
-RUN npm i --unsafe-perm --allow-root && npm build
+RUN npm i && npm build
 RUN mv ./.output /.output
 RUN mv ./templates /.output/templates
 RUN mv ./prisma/schema.prisma /.output/schema.prisma
