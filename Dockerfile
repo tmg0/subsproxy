@@ -8,8 +8,8 @@ RUN apk add sqlite sqlite-libs sqlite-dev
 WORKDIR /src
 
 COPY . .
-RUN npm install
-RUN npm run build
+RUN npm i pnpm -g
+RUN pnpm i && pnpm build
 RUN mv ./.output /.output
 RUN mv ./templates /.output/templates
 RUN mv ./prisma/schema.prisma /.output/schema.prisma
