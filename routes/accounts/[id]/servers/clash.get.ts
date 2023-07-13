@@ -63,5 +63,5 @@ export default defineEventHandler(async (event) => {
     }
   })
 
-  return renderTemplate('clash.config.yml', { servers: proxies })
+  return renderTemplate('jms.clash.config.yml', { servers: proxies })
 })
