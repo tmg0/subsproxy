@@ -1,4 +1,4 @@
 export default defineAuthenticatedEventHandler((event) => {
   const id = getRouterParam(event, 'id')
-  return prisma.device.findMany({ include: { accountDevice: { where: { accountId: id } } } })
+  return prisma.accountDevice.findMany({ where: { accountId: id }, include: { device: true } })
 })
