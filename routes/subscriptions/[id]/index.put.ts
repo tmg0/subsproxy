@@ -40,7 +40,7 @@ export default defineAuthenticatedEventHandler(async (event) => {
   const id = getRouterParam(event, 'id')
   const body = await readBody<Body>(event)
 
-  if (body.address) {
+  if (body?.address) {
     await prisma.subscription.update({ where: { id }, data: { address: body.address } })
   }
 
