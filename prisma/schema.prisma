@@ -19,7 +19,7 @@ model Account {
   updatedAt           DateTime              @updatedAt
   accountServer       AccountServer[]
   accountSubscription AccountSubscription[]
-  accountDevice       AccountDevice[]
+  device              Device[]
 }
 
 model Subscription {
@@ -45,20 +45,12 @@ model Server {
 }
 
 model Device {
-  id            String          @id @default(uuid())
-  ua            String
-  accountDevice AccountDevice[]
-}
-
-model AccountDevice {
   id        String  @id @default(uuid())
-  account   Account @relation(fields: [accountId], references: [id])
+  ua        String?
   accountId String
-  device    Device? @relation(fields: [deviceId], references: [id])
-  deviceId  String?
+  account   Account @relation(fields: [accountId], references: [id])
 
   @@index([accountId])
-  @@index([deviceId])
 }
 
 model AccountSubscription {

@@ -1,11 +1,4 @@
-export default defineAuthenticatedEventHandler(async (event) => {
+export default defineAuthenticatedEventHandler((event) => {
   const id = getRouterParam(event, 'id')
-  const devices = await prisma.accountDevice.findMany({ where: { accountId: id } })
-
-  await prisma.$transaction([
-    prisma.accountDevice.deleteMany({ where: { accountId: id } }),
-    prisma.device.deleteMany({ where: { OR: devices.map(({ deviceId }) => ({ id: deviceId })) } })
-  ])
-
-  return devices
+  return prisma.device.deleteMany({ where: { accountId: id } })
 })

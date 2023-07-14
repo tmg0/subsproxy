@@ -1,38 +1,27 @@
 import { z } from 'zod'
 import { H3Event } from 'h3'
 import { prisma } from '~/utils/prisma'
-import { getUserAgentFromHeader, pingServers } from '~/utils/common'
+import { getUserAgentFromHeader } from '~/utils/common'
 
 const Query = z.object({
   encode: z.boolean()
 })
 
 export const createAccountDevice = async (event: H3Event) => {
-  const accountDevices = (await prisma.accountDevice.findMany()) || []
-  if (!accountDevices || !accountDevices.length) { throwBadRequestException() }
+  const id = getRouterParam(event, 'id')
 
-  const devices = await prisma.device.findMany({
-    where: {
-      OR: accountDevices.map(({ deviceId }) => ({ id: deviceId })).filter(({ id }) => !!id)
-    }
-  })
+  const devices = await prisma.device.findMany({ where: { accountId: id } })
 
   const ua = getUserAgentFromHeader(event)
   const hasAccessUA = devices.some(device => device.ua === ua)
 
-  if (!hasAccessUA) {
-    const hasEmpty = accountDevices.some(({ deviceId }) => !deviceId)
+  if (hasAccessUA) { return }
 
-    if (!hasEmpty) { throwBadRequestException() }
+  const accessDevices = devices.filter(({ ua }) => !ua)
 
-    if (hasEmpty) {
-      await prisma.$transaction(async (prisma) => {
-        const { id: deviceId } = await prisma.device.create({ data: { ua } })
-        const { id: accountDeviceId } = await prisma.accountDevice.findFirst({ where: { deviceId: null } })
-        await prisma.accountDevice.update({ where: { id: accountDeviceId }, data: { deviceId } })
-      })
-    }
-  }
+  if (!accessDevices.length) { throwBadRequestException() }
+
+  await prisma.device.update({ data: { ua }, where: { id: accessDevices[0].id } })
 }
 
 export const getAccountServers = async (event: H3Event, id: string) => {
