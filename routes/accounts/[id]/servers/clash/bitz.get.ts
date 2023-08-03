@@ -1,4 +1,4 @@
-import { getAccountServers } from './index.get'
+import { getAccountServers } from '../index.get'
 import { SS_PREFIX, VMESS_PREFIX, isShadowsocks, isVmess, renderTemplate } from '~/utils/common'
 
 export interface ClashProxy {
@@ -63,5 +63,5 @@ export default defineEventHandler(async (event) => {
     }
   })
 
-  return renderTemplate('jms.clash.config.yml', { servers: proxies })
+  return renderTemplate('bitz.clash.config.yml', { servers: proxies })
 })
