@@ -27,6 +27,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/cron": "^2.0.1",
     "eslint": "^8.43.0",
+    "go-dude": "0.3.19",
     "nitropack": "^2.5.2",
     "prisma": "^5.0.0",
     "typescript": "^5.1.3",

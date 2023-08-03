@@ -5,10 +5,10 @@ mode: rule
 log-level: info
 external-controller: '127.0.0.1:9090'
 dns:
-    enable: true
-    ipv6: false
-    default-nameserver: [223.5.5.5, 223.6.6.6]
-    nameserver: [223.5.5.5, 223.6.6.6]
+  enable: true
+  ipv6: false
+  default-nameserver: [223.5.5.5, 223.6.6.6]
+  nameserver: [223.5.5.5, 223.6.6.6]
 proxies:
   {% for proxy in servers %}
   - name: {{ proxy.name }}
