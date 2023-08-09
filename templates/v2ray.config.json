@@ -1,0 +1,184 @@
+{
+  "log": {
+    "access": "/var/log/xray.access.log",
+    "error": "/var/log/xray.error.log",
+    "loglevel": "warning"
+  },
+  "inbounds": [
+    {
+      "tag": "http",
+      "port": 1080,
+      "listen": "0.0.0.0",
+      "protocol": "http",
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic",
+          "fakedns",
+          "fakedns+others"
+        ],
+        "metadataOnly": true
+      },
+      "settings": {
+        "udpEnabled": true
+      }
+    }
+  ],
+  "outbounds": [
+    {% for proxy in servers %}
+    {
+      "tag": "{{ proxy.tag }}",
+      "protocol": "{{ proxy.protocol }}",
+      "settings": {
+        {% if proxy.protocol == 'vmess' %}
+        "vnext": [
+          {
+            "address": "{{ proxy.server }}",
+            "port": {{ proxy.port}},
+            "users": [
+              {
+                "id": "{{ proxy.uuid }}",
+                "alterId": {{ proxy.alterId }},
+                "security": "{{ proxy.cipher }}"
+              }
+            ]
+          }
+        ]
+        {% elseif proxy.type == 'shadowsocks' %}
+        "servers": [
+          {
+            "address": "{{ proxy.server }}",
+            "port": {{ proxy.port }},
+            "method": "{{ proxy.cipher }}",
+            "password": "{{ proxy.password }}"
+          }
+        ]
+        {% endif %}
+      }
+    },
+    {% endfor %}
+    {
+      "tag": "direct",
+      "protocol": "freedom",
+      "settings": {}
+    },
+    {
+      "tag": "block",
+      "protocol": "blackhole",
+      "settings": {
+        "response": {
+          "type": "http"
+        }
+      }
+    }
+  ],
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "type": "field",
+        "inboundTag": [
+          "api"
+        ],
+        "outboundTag": "api",
+        "enabled": true
+      },
+      {
+        "id": "5270856235503876760",
+        "type": "field",
+        "outboundTag": "direct",
+        "domain": [
+          "domain:example-example.com",
+          "domain:example-example2.com"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "5759742903813008347",
+        "type": "field",
+        "outboundTag": "block",
+        "domain": [
+          "geosite:category-ads-all"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "4894384323742169592",
+        "type": "field",
+        "outboundTag": "direct",
+        "domain": [
+          "geosite:cn"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "5729556669620987944",
+        "type": "field",
+        "outboundTag": "direct",
+        "ip": [
+          "geoip:private",
+          "geoip:cn"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "4894384323742169593",
+        "type": "field",
+        "outboundTag": "dtin1",
+        "domains": [
+          "openai.com",
+          "cloudflare.com",
+          "sentry.io"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "4894384323742169594",
+        "type": "field",
+        "outboundTag": "c32s2",
+        "domains": [
+          "netflix.com"
+        ],
+        "enabled": true
+      },
+      {
+        "id": "4945167512436168377",
+        "type": "field",
+        "port": "0-65535",
+        "balancerTag": "jms",
+        "enabled": true
+      }
+    ],
+    "balancers": [
+      {
+        "tag": "jms",
+        "selector": [
+          "c32"
+        ],
+        "strategy": {
+          "type": "random"
+        }
+      },
+      {
+        "tag": "bitz",
+        "selector": [
+          "tr",
+          "dt"
+        ],
+        "strategy": {
+          "type": "random"
+        }
+      }
+    ],
+    "observatory": {
+      "subjectSelector": [
+        "vmess",
+        "ss"
+      ],
+      "probeURL": "https://www.google.com/generate_204",
+      "probeInterval": "1m"
+    }
+  }
+}

@@ -5,5 +5,5 @@
     "paths": { "~/*": ["./*"] }
   },
   "include": ["ping.d.ts", "./.nitro/types/nitro.d.ts", "./routes", "./utils", "./schedules"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "./templates"]
 }

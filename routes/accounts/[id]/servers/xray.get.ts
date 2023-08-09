@@ -1,9 +1,9 @@
-import { getAccountServers } from '../index.get'
+import { getAccountServers } from './index.get'
 import { SS_PREFIX, VMESS_PREFIX, isShadowsocks, isVmess, renderTemplate } from '~/utils/common'
 
-export interface ClashProxy {
-  name: string
-  type: 'ss' | 'vmess'
+export interface XrayProxy {
+  tag: string
+  protocol: 'shadowsocks' | 'vmess'
   server: string
   port: string
   cipher: string
@@ -34,14 +34,14 @@ export default defineEventHandler(async (event) => {
   const { id } = getRouterParams(event)
   const servers = await getAccountServers(event, id)
 
-  const proxies: ClashProxy[] = []
+  const proxies: XrayProxy[] = []
 
   servers.forEach((server, index) => {
     if (isVmess(server.address)) {
       const conf = parseVmess(server.address)
       proxies.push({
-        name: `vmess-${index}`,
-        type: 'vmess',
+        tag: `vmess-${index}`,
+        protocol: 'vmess',
         server: conf.add,
         port: conf.port,
         cipher: 'auto',
@@ -53,8 +53,8 @@ export default defineEventHandler(async (event) => {
     if (isShadowsocks(server.address)) {
       const conf = parseShadowsocks(server.address)
       proxies.push({
-        name: `ss-${index}`,
-        type: 'ss',
+        tag: `ss-${index}`,
+        protocol: 'shadowsocks',
         server: conf.server,
         port: conf.port,
         cipher: conf.method,
@@ -63,5 +63,5 @@ export default defineEventHandler(async (event) => {
     }
   })
 
-  return renderTemplate('v2ray.config.yml', { servers: proxies })
+  return renderTemplate('v2ray.config.json', { servers: proxies })
 })
