@@ -36,7 +36,7 @@
         "vnext": [
           {
             "address": "{{ proxy.server }}",
-            "port": {{ proxy.port}},
+            "port": {{ proxy.port }},
             "users": [
               {
                 "id": "{{ proxy.uuid }}",
@@ -46,7 +46,7 @@
             ]
           }
         ]
-        {% elseif proxy.type == 'shadowsocks' %}
+        {% elseif proxy.protocol == 'shadowsocks' %}
         "servers": [
           {
             "address": "{{ proxy.server }}",
