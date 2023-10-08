@@ -2,6 +2,7 @@ node_modules
 
 .nitro
 .output
+.env
 
 prisma/migrations
 prisma/database.db
