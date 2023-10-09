@@ -7,6 +7,8 @@ interface MinioUploadOptions {
 
 const runtimeConfig = useRuntimeConfig()
 
+const HOST = `http://${runtimeConfig.MINIO_END_POINT}:${runtimeConfig.MINIO_PORT}`
+
 const minioClient = new Client({
   endPoint: runtimeConfig.MINIO_END_POINT,
   port: Number(runtimeConfig.MINIO_PORT),
@@ -22,8 +24,8 @@ export const upload = async (file: Buffer, options: MinioUploadOptions) => {
   if (!isBucketExist) { return }
 
   return new Promise((resolve, reject) => {
-    minioClient.putObject(options.bucket, options.filename, file, (error, etag) => {
-      error ? reject(error) : resolve(etag)
+    minioClient.putObject(options.bucket, options.filename, file, (error) => {
+      !error ? resolve(`${HOST}/${options.bucket}/${options.filename}`) : reject(error)
     })
   })
 }
