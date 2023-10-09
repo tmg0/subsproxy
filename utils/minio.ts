@@ -7,7 +7,7 @@ interface MinioUploadOptions {
 
 const runtimeConfig = process.env
 
-const HOST = `http://${runtimeConfig.MINIO_END_POINT}:${runtimeConfig.MINIO_PORT}`
+const HOST = `https://${runtimeConfig.MINIO_END_POINT}:${runtimeConfig.MINIO_PORT}`
 
 const minioClient = new Client({
   endPoint: runtimeConfig.MINIO_END_POINT,
