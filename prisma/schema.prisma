@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider     = "sqlite"
-  url          = "file:/.output/database.db"
+  url          = "file:/root/database.db"
   relationMode = "prisma"
 }
 
