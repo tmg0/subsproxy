@@ -12,7 +12,7 @@ const HOST = `https://${runtimeConfig.MINIO_END_POINT}:${runtimeConfig.MINIO_POR
 const minioClient = new Client({
   endPoint: runtimeConfig.MINIO_END_POINT,
   port: Number(runtimeConfig.MINIO_PORT),
-  useSSL: false,
+  useSSL: true,
   accessKey: runtimeConfig.MINIO_ACCESS_KEY,
   secretKey: runtimeConfig.MINIO_SECRET_KEY
 })
