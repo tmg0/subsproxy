@@ -1,7 +1,7 @@
 // @ts-ignore
 import STS, { type PolicyDescription } from 'qcloud-cos-sts'
 
-const runtimeConfig = useRuntimeConfig()
+const runtimeConfig = process.env
 
 export const getPolicy = () => {
   const scope = [{
