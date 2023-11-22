@@ -65,8 +65,8 @@ devDependencies:
     specifier: ^8.43.0
     version: 8.44.0
   go-dude:
-    specifier: 0.3.19
-    version: 0.3.19
+    specifier: 0.4.0-rc.9
+    version: 0.4.0-rc.9
   nitropack:
     specifier: ^2.5.2
     version: 2.5.2
@@ -1117,7 +1117,6 @@ packages:
 
   /a-sync-waterfall@1.0.1:
     resolution: {integrity: sha512-RYTOHHdWipFUliRFMCS4X2Yn2X8M87V/OpSqWzKKOGhzqyUxzyVmhHDH9sAvG+ZuQf/TAOFsLCpMw09I1ufUnA==}
-    dev: false
 
   /abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -1283,7 +1282,6 @@ packages:
 
   /asap@2.0.6:
     resolution: {integrity: sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA==}
-    dev: false
 
   /asn1@0.2.6:
     resolution: {integrity: sha512-ix/FxPn0MDjeyJ7i/yoHGFt/EX6LyNbxSEhPPXODPL+KB0VPk86UYfL0lMdy+KCnv+fmvIzySwaK5COwqVbWTQ==}
@@ -1562,6 +1560,12 @@ packages:
     resolution: {integrity: sha512-fL/EEp9TyXlNkgYFQYNqtMJhnAk2tAq8lCST7O5LPn1NrzWPsOKE5wafR7J+8W87oxqolpxNli+w7khq5WP7tg==}
     dev: true
 
+  /citty@0.1.5:
+    resolution: {integrity: sha512-AS7n5NSc0OQVMV9v6wt3ByujNIrne0/cTjiC2MYqhvao57VNfiuVksTSr2p17nVOhEr2KtqiAkGwHcgMC/qUuQ==}
+    dependencies:
+      consola: 3.2.3
+    dev: true
+
   /clean-regexp@1.0.0:
     resolution: {integrity: sha512-GfisEZEJvzKrmGWkvfhgzcz/BllN1USeqD2V6tg14OAOgaCD2Z/PUEuxnAZ/nPvmaHRG7a8y77p1T/IRQ4D1Hw==}
     engines: {node: '>=4'}
@@ -1632,12 +1636,6 @@ packages:
   /commander@5.1.0:
     resolution: {integrity: sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==}
     engines: {node: '>= 6'}
-    dev: false
-
-  /commander@9.5.0:
-    resolution: {integrity: sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==}
-    engines: {node: ^12.20.0 || >=14}
-    dev: true
 
   /commondir@1.0.1:
     resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}
@@ -2805,23 +2803,26 @@ packages:
       slash: 4.0.0
     dev: true
 
-  /go-dude@0.3.19:
-    resolution: {integrity: sha512-9abaGGdvVuDgcaW7Qa2HZzHfIy74KSY3fFuOCDPGQovT3C/gsIaWN9JFc9xLeYDVFmX07BmgYj/OFDkxyyE2Mw==}
+  /go-dude@0.4.0-rc.9:
+    resolution: {integrity: sha512-ekt8UVaIghDHv8KrQs9n7YW496U4yD8zgxQXJq623WW1kxE2CFrVD43V2RyDFrNbGaH4vrf7CnOsPR/P/3ZZsg==}
     hasBin: true
     dependencies:
       c12: 1.4.2
-      commander: 9.5.0
+      citty: 0.1.5
       consola: 3.2.3
       dayjs: 1.11.9
       destr: 2.0.0
       fs-extra: 11.1.1
       mlly: 1.4.0
+      nanoid: 4.0.2
       node-scp: 0.0.22
       node-ssh: 13.1.0
+      nunjucks: 3.2.4
       pathe: 1.1.1
       semver: 7.5.4
       yaml: 2.3.1
     transitivePeerDependencies:
+      - chokidar
       - supports-color
     dev: true
 
@@ -3655,7 +3656,6 @@ packages:
     resolution: {integrity: sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==}
     engines: {node: ^14 || ^16 || >=18}
     hasBin: true
-    dev: false
 
   /natural-compare-lite@1.4.0:
     resolution: {integrity: sha512-Tj+HTDSJJKaZnfiuw+iaF9skdPpTo2GtEly5JHnWV/hfv2Qj/9RKsGISQtLh2ox3l5EAGw487hnBee0sIJ6v2g==}
@@ -3855,7 +3855,6 @@ packages:
       a-sync-waterfall: 1.0.1
       asap: 2.0.6
       commander: 5.1.0
-    dev: false
 
   /oauth-sign@0.9.0:
     resolution: {integrity: sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ==}

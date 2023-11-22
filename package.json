@@ -31,7 +31,7 @@
     "@types/cron": "^2.0.1",
     "dotenv": "^16.3.1",
     "eslint": "^8.43.0",
-    "go-dude": "0.3.19",
+    "go-dude": "0.4.0-rc.9",
     "nitropack": "^2.5.2",
     "prisma": "^5.4.1",
     "typescript": "^5.1.3",
