@@ -9,7 +9,7 @@ const Body = z.object({
 
 type Body = z.infer<typeof Body>
 
-export const resetSubscriptionServers = async (id: string) => {
+export const refetchSubscriptionServers = async (id: string) => {
   const subscription = await prisma.subscription.findUnique({ where: { id } })
   if (!subscription) { throwBadRequestException() }
   const servers = atob(await ofetch(subscription.address)).split(/[\n\r]/).filter(Boolean).flat()
@@ -44,5 +44,5 @@ export default defineAuthenticatedEventHandler(async (event) => {
     await prisma.subscription.update({ where: { id }, data: { address: body.address } })
   }
 
-  return resetSubscriptionServers(id)
+  return refetchSubscriptionServers(id)
 })
